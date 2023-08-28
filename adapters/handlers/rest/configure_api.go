@@ -400,7 +400,7 @@ func configureAPI(api *operations.WeaviateAPI) http.Handler {
 	// Start it later in server.go
 	// startGrpcServer(grpcServer, appState)
 
-	return makeSharedPortHandlerFunc(setupGlobalMiddleware(api.Serve(setupMiddlewares)), grpcServer, appState)
+	return makeSharedPortHandlerFunc(grpcServer, setupGlobalMiddleware(api.Serve(setupMiddlewares)))
 }
 
 // TODO: Split up and don't write into global variables. Instead return an appState
