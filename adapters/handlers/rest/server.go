@@ -550,15 +550,3 @@ func startCombinedServer(httpServer *http.Server, grpcServer *grpc.GRPCServer, a
 	}
 }
 
-func makeSharedPortHandlerFunc(grpcServer *grpc.GRPCServer, otherHandler http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
-			fmt.Printf("Running grpc handler\n")
-			grpcServer.ServeHTTP(w, r)
-		} else {
-			fmt.Printf("Running http handler\n")
-			otherHandler.ServeHTTP(w, r)
-		}
-	})
-}
-
